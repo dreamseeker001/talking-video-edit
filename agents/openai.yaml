@@ -1,0 +1,4 @@
+interface:
+  display_name: "口播剪辑"
+  short_description: "本地完成口播清理、校色、演示编排和字幕，归档参考并复用你的风格偏好"
+  default_prompt: "使用 $talking-video-edit 处理这条口播，读取我的偏好和参考，完成可修改的成片。"

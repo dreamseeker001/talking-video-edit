@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "openeditCommit": "b470ebc0eba702f9a1ceb91bff7a6c2d5a871f74",
+  "engineTag": "weave-v0.10.2",
+  "engineSha256": "808af93a5a0252085e56cc584b09f10d018a464e0d7b0fe8982dfb503dcdbc26",
+  "ffmpegUrl": "https://github.com/GyanD/codexffmpeg/releases/download/9.0.1/ffmpeg-9.0.1-essentials_build.zip",
+  "ffmpegSha256": "49a73bdf0850092a252ac4641d922f3048d63ed113e196cc65ce1e4f7fb33e85",
+  "nodeVersion": "24.21.0",
+  "pnpmVersion": "10.16.1",
+  "uvVersion": "0.12.17",
+  "models": [
+    {"repo": "Systran/faster-whisper-medium", "revision": "08e178d48790749d25932bbc082711ddcfdfbc4f"},
+    {"repo": "jonatasgrosman/wav2vec2-large-xlsr-53-chinese-zh-cn", "revision": "99ccb2737be22b8bb50dcfcc39ad4d567fb90cfd"}
+  ]
+}
