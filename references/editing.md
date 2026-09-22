@@ -8,6 +8,8 @@
 
 Prepare 返回 Media、RunDir 等路径。Invoke-VideoStage 只转发原生命令并记录日志，不替 Agent 决定删什么。
 
+编排以 [agent-recovery.md](agent-recovery.md) 为准：Cut后先由Agent完成底片及实际字幕chunks，再Prep和派生注释；技术异常由Agent在范围内兜底，最终汇报，不以工具返回待处理状态为由结束任务。
+
 首次接管已有转录时，Prepare 会核对其 meta 指向的源内容。若是 Agent 刚复用的已验证重定时字幕，尚无 meta，可明确加 `-AdoptExistingTranscript`；不能用此开关绕过不明来源缓存。
 
 ```powershell
@@ -22,7 +24,9 @@ Cut 使用原生 `apply-edl` 和 `retime-transcript`；先创建 run，再写重
 
 校色只处理未烧录字幕底片。1080p交付按源画幅等比构建；如改2K/4K，从足够分辨率源重建，不能简单放大旧1080p底片冒充细节升级。HDR/广色域先识别输入色彩，不直接套 SDR eq 或 LUT。FFmpeg合成脚本保存在项目；实际帧数/音画时长由工具计算。
 
-普通中文黑底配方复制 assets/captions-clean.ts；具体语义标签、焦点框和演示关系写本片模块。竖屏需要自己的素材构图和手机安全区，不把横屏坐标缩放过去。原生 generate-recipe 负责 lint/verify/record/probe，mux-audio 恢复并标准化旁白；不编辑其生成的文档。
+普通中文黑底配方只作为环境基线；正式任务必须复制并冻结当前 profile 指向的模块和 adapter。先用 `editorial-plan.mjs` 创建全片计划，由 Agent 通读后统一决定 cuts、语义边界、关键词、卡片和策略证据；再用 `Apply-EditorialPlan.mjs` 派生 OpenEdit 原生 EDL，执行 Cut。Cut 后以重定时转录为新的时间线，重新 Prep、投影保留 beat 并运行 `Initialize-VideoAnnotations.mjs`，最后才 Render。不要逐个字幕 beat 临时决定，也不把内容硬编码进通用模块。竖屏需要自己的素材构图和手机安全区，不把横屏坐标缩放过去。原生 generate-recipe 负责 lint/verify/record/probe，mux-audio 恢复并标准化旁白；不编辑其生成的文档。
+
+字幕模块必须来自当前 profile 的 `module.path` 或其在 Prepare 阶段冻结的副本；adapter 与模块哈希不匹配就停在渲染前。渲染前读取转录的 cue/beat 数量：若一个 beat 覆盖整段口播，使用 `segment-transcript.mjs` 按逐字时间和语义边界拆分，并将分段记录标为 `final` 后再 Prep；机械等长切分只能是 draft，不能冒充语义完成。`presentation.json` 必须覆盖每个 native beat，`policy-review.json` 必须逐条给出执行证据；这两个文件不能替代原生时间轴。
 
 ## 修改与检查
 

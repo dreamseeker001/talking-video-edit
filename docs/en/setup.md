@@ -12,7 +12,9 @@ Arguments are optional; defaults use LocalAppData. Reuse an existing verified Op
 
 Initialization records machine paths without overwriting an existing `preferences.md`. A new template has `confirmed=false`; the agent must confirm preferences with the user. Dependency downloads and the preference discussion can proceed independently. Do not mark preferences confirmed without supporting answers.
 
-Setup runs real Chinese speech recognition, a caption rendering smoke test and full decoding. Reuse a previously successful validation when fingerprints are unchanged; `-Verify` forces a new test. The short test does not establish clean-machine installation, seven-minute performance, 4K support, complex composition or aesthetic quality. Preserve existing files on download failure; do not switch to a paid cloud service automatically.
+Setup runs real Chinese speech recognition, a baseline caption rendering smoke test and full decoding. The environment smoke is independent of unconfirmed personal preferences; the selected preference contract is validated separately with a short sample and preflight. Reuse a previously successful validation when fingerprints are unchanged; `-Verify` forces a new test. The short test does not establish clean-machine installation, seven-minute performance, 4K support, complex composition or aesthetic quality. Preserve existing files on download failure; do not switch to a paid cloud service automatically.
+
+Installation must also perform one preference-distillation pass: create the executable profile, scope, settings, policies, module/adapter mapping and validation state from confirmed answers and active reference analysis, verify it with a short sample, then reread the full file and audit conflicts, scope and referenced modules. Users confirm this in chat; they do not need to enter code.
 
 ## Compatibility
 

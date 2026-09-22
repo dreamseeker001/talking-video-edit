@@ -26,6 +26,8 @@ The default workflow uses local transcription and rendering without a VEED accou
 
 Stable tool choices are established during setup. Daily work loads the short entrypoint, current preferences, project state and necessary visual evidence. Installation history, source code and full reference analyses are loaded only when needed.
 
+Long-term preferences are a versioned configuration contract, not loose memory text. Each profile carries scope, module/adapter hashes, executable settings, agent policies, evidence and implementation status. A task freezes one contract snapshot; preflight and rendering consume that same snapshot. Saying “remember this” starts a backed-up, optimistic-concurrency update, followed by a full reread and conflict audit.
+
 ## Requirements
 
 - Windows 10/11 x64, PowerShell 7, `tar.exe`, and a desktop session capable of running the rendering engine.

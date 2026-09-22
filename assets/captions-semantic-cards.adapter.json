@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "description": "Supported renderer/preflight inputs, not preference defaults. New fields require a consumer and tests.",
+  "fields": {
+    "captions.plateColor": {
+      "type": "string",
+      "pattern": "^(#[0-9a-fA-F]{6}|transparent)$"
+    },
+    "captions.textColor": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "captions.keywordColor": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "captions.align": {
+      "type": "string",
+      "enum": [
+        "left",
+        "center",
+        "right"
+      ]
+    },
+    "captions.fontSize": {
+      "type": "number",
+      "min": 12,
+      "max": 160
+    },
+    "captions.margin": {
+      "type": "number",
+      "min": 0,
+      "max": 400
+    },
+    "captions.bottom": {
+      "type": "number",
+      "min": 0,
+      "max": 800
+    },
+    "captions.paddingX": {
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "captions.paddingY": {
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "captions.radius": {
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "captions.maxCueChars": {
+      "type": "number",
+      "min": 1,
+      "max": 100
+    },
+    "captions.maxCueSeconds": {
+      "type": "number",
+      "min": 0.1,
+      "max": 30
+    },
+    "packaging.cards": {
+      "type": "string",
+      "enum": [
+        "none",
+        "semantic",
+        "full"
+      ]
+    },
+    "packaging.position": {
+      "type": "string",
+      "enum": [
+        "top-left",
+        "top-right"
+      ]
+    },
+    "packaging.margin": {
+      "type": "number",
+      "min": 0,
+      "max": 400
+    },
+    "packaging.top": {
+      "type": "number",
+      "min": 0,
+      "max": 800
+    },
+    "packaging.fontSize": {
+      "type": "number",
+      "min": 12,
+      "max": 100
+    },
+    "packaging.radius": {
+      "type": "number",
+      "min": 0,
+      "max": 100
+    },
+    "packaging.backgroundColor": {
+      "type": "string",
+      "pattern": "^(#[0-9a-fA-F]{6}|transparent)$"
+    },
+    "packaging.textColor": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "packaging.accentColor": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    }
+  }
+}

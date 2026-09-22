@@ -6,6 +6,10 @@
 
 During setup, confirm three groups: color correction and LUTs; captions, cards and the scope of reference borrowing; resolution, orientation, frame rate and audio. Reuse explicit existing answers. A reference does not imply acceptance of all its elements: record what is adopted, rejected or undecided.
 
+## Preference lifecycle
+
+During installation, distill confirmed answers and archived reference evidence into machine-readable `revision`, profiles, scopes, module/adapter hashes, settings, policies, output, references and validation state. Each task reads the complete JSON and prose, freezes one profile plus its module and adapter, and applies explicit project overrides. `settings` drive mechanical output; `policies` drive evidence-backed agent decisions. Classify feedback as local-only, candidate, or explicit long-term preference. An explicit “remember this” starts an update without asking again; recurring high-value changes are offered as candidates. After any write, increment `revision`, reread the complete file and audit conflicts; unresolved conflicts require a user choice or scenario split before rendering. IDs and profile names are internal, not user style names.
+
 ## Archiving
 
 ```powershell

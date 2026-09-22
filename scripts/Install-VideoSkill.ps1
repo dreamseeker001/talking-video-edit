@@ -114,9 +114,15 @@ $env:HF_HUB_OFFLINE='0';$env:TRANSFORMERS_OFFLINE='0'
 Invoke-VideoLogged $python @("$PSScriptRoot/ensure-models.py","$skillRoot/assets/dependency-lock.json") "$DataRoot/logs/models.log"
 $env:HF_HUB_OFFLINE='1';$env:TRANSFORMERS_OFFLINE='1'
 if(-not(Test-Path -LiteralPath "$DataRoot/preferences.md")){Copy-Item -LiteralPath "$skillRoot/assets/preference-template.md" -Destination "$DataRoot/preferences.md"}
+# Environment smoke is independent of personal taste, but a confirmed contract must
+# still be structurally valid before installation can report success.
+$storedPreferences=Read-VideoPreferences (Join-Path $DataRoot 'preferences.md')
+if($storedPreferences.confirmed -eq $true){
+ Invoke-VideoLogged $nodePath @($PSScriptRoot+'/preference-contract.mjs','validate',(Join-Path $DataRoot 'preferences.md'),$skillRoot) "$DataRoot/logs/preferences-contract.log"
+}
 Invoke-VideoLogged $nodePath @($cli,'transcribe','--record','whisperx','--model','medium') "$DataRoot/logs/provider.log"
 $fingerprints=[ordered]@{}
-foreach($path in @($nodePath,$cli,$engine,$ffmpeg,$python,"$runtime/pnpm-lock.yaml","$skillRoot/assets/dependency-lock.json","$skillRoot/assets/whisperx-constraints.txt","$skillRoot/assets/captions-clean.ts","$PSScriptRoot/Invoke-VideoStage.ps1","$PSScriptRoot/ensure-models.py")){
+foreach($path in @($nodePath,$cli,$engine,$ffmpeg,$python,"$runtime/pnpm-lock.yaml","$skillRoot/assets/dependency-lock.json","$skillRoot/assets/whisperx-constraints.txt","$skillRoot/assets/captions-clean.ts","$skillRoot/assets/captions-semantic-cards.ts","$skillRoot/assets/captions-semantic-cards.adapter.json","$PSScriptRoot/Invoke-VideoStage.ps1","$PSScriptRoot/Validate-VideoPreferences.ps1","$PSScriptRoot/Assert-VideoStyle.ps1","$PSScriptRoot/Update-VideoPreferences.ps1","$PSScriptRoot/Prepare-VideoTask.ps1","$PSScriptRoot/Run-VideoTask.ps1","$PSScriptRoot/preference-contract.mjs","$PSScriptRoot/editorial-plan.mjs","$PSScriptRoot/Apply-EditorialPlan.mjs","$PSScriptRoot/segment-transcript.mjs","$PSScriptRoot/Initialize-VideoAnnotations.mjs","$PSScriptRoot/ensure-models.py")){
  $fingerprints[$path]=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
 }
 $fingerprint=$fingerprints | ConvertTo-Json -Compress
@@ -136,7 +142,9 @@ Invoke-VideoLogged $ffmpeg @('-v','error','-f','lavfi','-i','color=c=0x283b42:s=
 Copy-Item -LiteralPath "$skillRoot/assets/captions-clean.ts" -Destination "$smokeDir/captions.ts"
 & "$PSScriptRoot/Invoke-VideoStage.ps1" -Stage Transcribe -RunDir $run -Media $media
 & "$PSScriptRoot/Invoke-VideoStage.ps1" -Stage Prep -RunDir $run -Media $media
-& "$PSScriptRoot/Invoke-VideoStage.ps1" -Stage Render -RunDir $run -Module "$smokeDir/captions.ts"
+# Environment-only smoke: does not depend on unconfirmed user preferences and cannot certify style.
+Invoke-VideoLogged $nodePath @($cli,'generate-recipe','--run',$run,'--module',"$smokeDir/captions.ts",'--record') "$DataRoot/logs/smoke-render.log"
+Invoke-VideoLogged $nodePath @($cli,'mux-audio',$run) "$DataRoot/logs/smoke-mux.log"
 & "$PSScriptRoot/Invoke-VideoStage.ps1" -Stage Check -RunDir $run
 $environment.Validation=@{Passed=$true;At=(Get-Date).ToString('o');Fingerprint=$fingerprint;SmokeRun=$run;Scope='Adopted environment; Chinese ASR and 720x1280 caption render/mux/decode. Cold-machine install not validated.'}
 $environment.ActualVersions=@{Node=(& $nodePath --version);FFmpeg=((& $ffmpeg -version | Select-Object -First 1));Engine=(& $engine --version)}

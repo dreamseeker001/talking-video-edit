@@ -26,13 +26,22 @@ switch($Stage){
   if(-not $Edl -or -not $Output){throw 'Cut requires Edl and Output.'}
   if([IO.Path]::GetFileNameWithoutExtension($Output) -ne (Split-Path $RunDir -Leaf)){throw 'Output basename must equal native RunDir leaf.'}
   if(Test-Path -LiteralPath $Output){throw 'Choose a new cut output; existing video is preserved.'}
+  $edlDoc=Get-Content -LiteralPath $Edl -Raw | ConvertFrom-Json
+  foreach($inputTranscript in $edlDoc.transcripts.PSObject.Properties.Value){
+   if([IO.Path]::GetFullPath($inputTranscript) -eq [IO.Path]::GetFullPath("$RunDir/transcript.json")){throw 'Retime output would overwrite its input transcript. Use a separate native cut run.'}
+  }
   Invoke-Native @('apply-edl','--edl',$Edl,'--out',$Output,'--crossfade',"$Crossfade") 'cut'
   Invoke-Native @('retime-transcript','--edl',$Edl,'--out',"$RunDir/transcript.json") 'retime'
   Invoke-Native @('prep',$Output) 'prep'
  }
  'Render' {
   if(-not (Test-Path -LiteralPath $Module)){throw 'Render requires a project recipe module.'}
-  Invoke-Native @('generate-recipe','--run',$RunDir,'--module',$Module,'--record') 'render'
+  & "$PSScriptRoot/Assert-VideoStyle.ps1" -RunDir $RunDir -Module $Module
+  $oldContext=$env:VIDEO_STYLE_CONTEXT
+  try{
+   $env:VIDEO_STYLE_CONTEXT=Join-Path $RunDir 'style.resolved.json'
+   Invoke-Native @('generate-recipe','--run',$RunDir,'--module',$Module,'--record') 'render'
+  } finally {$env:VIDEO_STYLE_CONTEXT=$oldContext}
   Invoke-Native @('mux-audio',$RunDir) 'mux'
   $Output="$RunDir/final/out.mp4"
  }
