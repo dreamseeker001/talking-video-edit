@@ -1,5 +1,7 @@
 ---
 name: talking-video-edit
+metadata:
+  version: "1.1"
 description: 使用本地 OpenEdit、FFmpeg 和 WhisperX 剪辑中文口播，完成失误清理、校色、演示编排、字幕与成片；支持安装初始化、归档参考、恢复偏好及同片修改。用于实际剪片或搭建这套工作流，单纯讨论工具不触发安装或渲染。
 ---
 

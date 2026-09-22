@@ -1,5 +1,9 @@
 # talking-video-edit
 
+Version: **v1.1**
+
+This version strengthens preference contracts, whole-video editorial planning, and Agent recovery with delivery reporting. Scripts handle deterministic stages; the Agent handles semantic decisions and in-scope recovery. Existing helper tests pass; a fresh end-to-end run of the revised orchestration is still pending.
+
 **English** | [简体中文](README.zh-CN.md)
 
 A Codex skill for Chinese talking-head video editing with OpenEdit, FFmpeg, and WhisperX. Supports local speech cleanup, color correction, animated captions, B-roll sequencing, and persistent editing preferences.
