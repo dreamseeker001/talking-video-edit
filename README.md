@@ -6,6 +6,8 @@ This version strengthens preference contracts, whole-video editorial planning, a
 
 **English** | [简体中文](README.zh-CN.md)
 
+See the [changelog](CHANGELOG.md) for release history.
+
 A Codex skill for Chinese talking-head video editing with OpenEdit, FFmpeg, and WhisperX. Supports local speech cleanup, color correction, animated captions, B-roll sequencing, and persistent editing preferences.
 
 The agent makes semantic and creative decisions from your footage, script and references. Scripts handle environment preparation, native tool calls and technical checks. No dedicated editing interface is required.
